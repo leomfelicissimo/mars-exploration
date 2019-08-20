@@ -27,7 +27,7 @@ case class ControlCenter(coord: Coordinate) {
   }
 
   def directTo(from: Coordinate, instruction: Instruction): Coordinate = {
-    val movement = from.direction ++ instruction
+    val movement = from.direction turnTo instruction
     val newDirection = moveTransitionMap(movement)
     return from.copy(direction = newDirection)
   }

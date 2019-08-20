@@ -1,11 +1,11 @@
 package main
 
 sealed trait Direction {
-  def ++(instruction: Instruction): String
+  def turnTo(instruction: Instruction): String
 }
 
 case object North extends Direction {
-  def ++(instruction: Instruction): String = instruction match {
+  def turnTo(instruction: Instruction): String = instruction match {
     case Left => "NL"
     case Right => "NR"
     case Move => ""
@@ -13,7 +13,7 @@ case object North extends Direction {
 }
 
 case object West extends Direction {
-  def ++(instruction: Instruction): String = instruction match {
+  def turnTo(instruction: Instruction): String = instruction match {
     case Left => "WL"
     case Right => "WR"
     case Move => ""
@@ -21,7 +21,7 @@ case object West extends Direction {
 }
 
 case object East extends Direction {
-  def ++(instruction: Instruction): String = instruction match {
+  def turnTo(instruction: Instruction): String = instruction match {
     case Left => "EL"
     case Right => "ER"
     case Move => ""
@@ -29,7 +29,7 @@ case object East extends Direction {
 }
 
 case object South extends Direction {
-  def ++(instruction: Instruction): String = instruction match {
+  def turnTo(instruction: Instruction): String = instruction match {
     case Left => "SL"
     case Right => "SR"
     case Move => ""
