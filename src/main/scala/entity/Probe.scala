@@ -3,15 +3,8 @@ package entity
 import common._
 import main.Coordinate
 
-class Probe(val name: String, val coordinate: Coordinate) {
-  private def toInstruction(letter: Char): Instruction = letter match {
-    case 'L' => common.Left
-    case 'R' => common.Right
-    case 'M' => Move
-  }
-
-  private def applyMove(coordinate: Coordinate, letter: Char): Coordinate = {
-    val instruction = toInstruction(letter);
+case class Probe(name: String, coordinate: Coordinate) {
+  private def applyMove(coordinate: Coordinate, instruction: Instruction): Coordinate = {
     instruction match {
       case Move => moveTo(from = coordinate)
       case common.Left => directTo(from = coordinate, common.Left)
@@ -32,9 +25,15 @@ class Probe(val name: String, val coordinate: Coordinate) {
   }
 
   def executeInstruction(instructions: List[Char], coordinate: Coordinate): Coordinate = {
+    def toInstruction(letter: Char): Instruction = letter match {
+      case 'L' => common.Left
+      case 'R' => common.Right
+      case 'M' => Move
+    }
+
     instructions match {
       case Nil => coordinate
-      case c :: tail => executeInstruction(tail, applyMove(coordinate, c))
+      case c :: tail => executeInstruction(tail, applyMove(coordinate, toInstruction(c)))
     }
   }
 }

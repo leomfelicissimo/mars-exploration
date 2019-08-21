@@ -2,22 +2,24 @@ package main
 
 import common.Direction
 import entity.Probe
+import repository.ControlCenterRepository
 
 case class Coordinate(x: Int, y: Int, direction: Direction)
 
 class ControlCenter() {
-  var probes: Seq[Probe] = Seq()
+  private val repository = new ControlCenterRepository()
 
-  def sendProbe(probeName: String, coordinate: Coordinate) = {
-    val probe = new Probe(probeName, coordinate)
-    probes = probes :+ probe
-  }
-
-  def sendCommand(command: String, probeName: String): Option[Coordinate] = {
+  def sendProbe(probe: Probe) = repository.insert(probe)
+  def getProbe(probeName: String) = repository.findByName(probeName)
+  def getProbes() = repository.findAll()
+  def sendCommand(command: String, probeName: String): Option[Probe] = {
     val instructions = command.toList
-    val probe = probes.find(p => p.name.equals(probeName))
+    val probe = repository.findByName(probeName)
     probe match {
-      case Some(probe) => Some(probe.executeInstruction(instructions, probe.coordinate))
+      case Some(probe) => {
+        val newCoordinate = probe.executeInstruction(instructions, probe.coordinate)
+        Some(repository.updatePosition(probe.name, newCoordinate))
+      }
       case None => None
     }
   }

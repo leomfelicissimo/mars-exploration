@@ -14,7 +14,8 @@ lazy val root = (project in file("."))
       scalaTest % Test,
       "com.typesafe.akka" %% "akka-http"   % "10.1.9",
       "com.typesafe.akka" %% "akka-stream" % "2.5.23",
-      "com.typesafe.akka" %% "akka-http-spray-json" % "10.1.9"
+      "com.typesafe.akka" %% "akka-http-spray-json" % "10.1.9",
+      "pl.iterators" %% "kebs-spray-json" % "1.6.3"
     )
   )
 

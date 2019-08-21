@@ -1,7 +1,5 @@
 package common
 
-import main.Move
-
 sealed trait Direction {
   def ++(instruction: Instruction): Direction
 }
