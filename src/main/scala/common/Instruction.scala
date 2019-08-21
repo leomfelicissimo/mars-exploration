@@ -1,4 +1,4 @@
-package main
+package common
 
 sealed trait Instruction
 case object Left extends Instruction

@@ -1,55 +1,24 @@
 package main
 
+import common.Direction
+import entity.Probe
+
 case class Coordinate(x: Int, y: Int, direction: Direction)
-case class ControlCenter(coord: Coordinate) {
-  val moveTransitionMap = Map[String, Direction](
-    "NL" -> West,
-    "WL" -> South,
-    "SL" -> East,
-    "EL" -> North,
-    "NR" -> East,
-    "WR" -> North,
-    "SR" -> West,
-    "ER" -> South,
-  )
 
-  def toInstruction(letter: Char): Instruction = letter match {
-    case 'L' => Left
-    case 'R' => Right
-    case 'M' => Move
+class ControlCenter() {
+  var probes: Seq[Probe] = Seq()
+
+  def sendProbe(probeName: String, coordinate: Coordinate) = {
+    val probe = new Probe(probeName, coordinate)
+    probes = probes :+ probe
   }
 
-  def moveTo(from: Coordinate): Coordinate = from.direction match {
-    case West => from.copy(x = from.x - 1)
-    case East => from.copy(x = from.x + 1)
-    case South => from.copy(y = from.y - 1)
-    case North => from.copy(y = from.y + 1)
-  }
-
-  def directTo(from: Coordinate, instruction: Instruction): Coordinate = {
-    val movement = from.direction turnTo instruction
-    val newDirection = moveTransitionMap(movement)
-    return from.copy(direction = newDirection)
-  }
-
-  def reducer(coordinate: Coordinate, letter: Char): Coordinate = {
-    val instruction = toInstruction(letter);
-    instruction match {
-      case Move => moveTo(from = coordinate)
-      case Left => directTo(from = coordinate, Left)
-      case Right => directTo(from = coordinate, Right)
-    }
-  }
-
-  def parseCommand(command: String): Coordinate = {
-    def transduce(instructions: List[Char], coordinate: Coordinate): Coordinate = {
-      instructions match {
-        case Nil => coordinate
-        case c :: tail => transduce(tail, reducer(coordinate, c))
-      }
-    }
-
+  def sendCommand(command: String, probeName: String): Option[Coordinate] = {
     val instructions = command.toList
-    return transduce(instructions, coord)
+    val probe = probes.find(p => p.name.equals(probeName))
+    probe match {
+      case Some(probe) => Some(probe.executeInstruction(instructions, probe.coordinate))
+      case None => None
+    }
   }
 }

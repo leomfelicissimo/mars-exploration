@@ -1,14 +1,15 @@
 package api
-import akka.actor.ActorSystem
-import akka.stream.ActorMaterializer
-import akka.http.scaladsl.model._
-import akka.http.scaladsl.server.Directives._
-import scala.io.StdIn
-import akka.http.scaladsl.Http
-import scala.concurrent.Future
+
 import akka.Done
-import akka.http.scaladsl.marshallers.sprayjson.SprayJsonSupport._
-import spray.json.DefaultJsonProtocol._
+import akka.actor.ActorSystem
+import akka.http.scaladsl.Http
+import akka.http.scaladsl.model.StatusCodes
+import akka.http.scaladsl.server.Directives.{as, complete, concat, entity, get, onComplete, onSuccess, path, pathPrefix, post}
+import akka.stream.ActorMaterializer
+import spray.json.DefaultJsonProtocol.{jsonFormat1, jsonFormat2}
+
+import scala.concurrent.Future
+import scala.io.StdIn
 
 object WebServer {
   implicit val system = ActorSystem("mars-exploration")
@@ -37,7 +38,7 @@ object WebServer {
   }
 
   def main(args: Array[String]) {
-    val route = 
+    val route =
       concat(
         get {
           pathPrefix("item" / LongNumber) { id =>
@@ -50,7 +51,7 @@ object WebServer {
         },
         post {
           path("create-order") {
-            entity(as[Order]) { order => 
+            entity(as[Order]) { order =>
               val saved: Future[Done] = saveOrder(order)
               onComplete(saved) { done =>
                 complete("order created")
