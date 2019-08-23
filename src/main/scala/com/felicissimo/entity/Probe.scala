@@ -1,15 +1,23 @@
 package entity
 
+import com.felicissimo.controller.Coordinate
+import com.typesafe.scalalogging.Logger
 import common._
-import main.Coordinate
 
 case class Probe(name: String, coordinate: Coordinate) {
+  private val logger = Logger("Probe")
+
   private def applyMove(coordinate: Coordinate, instruction: Instruction): Coordinate = {
-    instruction match {
+    logger.info("Instruction to execute: {}", instruction.toString)
+    logger.info("Moving from: {}", coordinate.toString)
+    val newCoordinate = instruction match {
       case Move => moveTo(from = coordinate)
       case common.Left => directTo(from = coordinate, common.Left)
       case common.Right => directTo(from = coordinate, common.Right)
     }
+
+    logger.info("Moved to: {}", newCoordinate.toString)
+    newCoordinate
   }
 
   private def moveTo(from: Coordinate): Coordinate = from.direction match {
@@ -21,7 +29,7 @@ case class Probe(name: String, coordinate: Coordinate) {
 
   private def directTo(from: Coordinate, instruction: Instruction): Coordinate = {
     val newDirection = from.direction ++ instruction
-    return from.copy(direction = newDirection)
+    from.copy(direction = newDirection)
   }
 
   def executeInstruction(instructions: List[Char], coordinate: Coordinate): Coordinate = {
@@ -33,7 +41,9 @@ case class Probe(name: String, coordinate: Coordinate) {
 
     instructions match {
       case Nil => coordinate
-      case c :: tail => executeInstruction(tail, applyMove(coordinate, toInstruction(c)))
+      case c :: tail => {
+        executeInstruction(tail, applyMove(coordinate, toInstruction(c)))
+      }
     }
   }
 }

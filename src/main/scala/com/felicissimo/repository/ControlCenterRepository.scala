@@ -1,7 +1,7 @@
 package repository
 
+import com.felicissimo.controller.Coordinate
 import entity.Probe
-import main.Coordinate
 
 class ControlCenterRepository {
   private var probes = Map[String, Probe]()
