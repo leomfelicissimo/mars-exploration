@@ -25,7 +25,9 @@ lazy val root = (project in file("."))
       "com.typesafe.akka" %% "akka-http-spray-json" % "10.1.9",
       "pl.iterators" %% "kebs-spray-json" % "1.6.3",
       "com.typesafe.scala-logging" %% "scala-logging" % "3.9.2",
-      "ch.qos.logback" % "logback-classic" % "1.1.3" % Runtime
+      "ch.qos.logback" % "logback-classic" % "1.1.3" % Runtime,
+      "org.scalactic" %% "scalactic" % "3.0.8",
+      "org.scalatest" %% "scalatest" % "3.0.8" % "test"
     )
   )
 
