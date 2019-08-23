@@ -152,6 +152,8 @@ O response será a nova coordenada da sonda, apontando para 5, 1, leste.
 
 ## Backlog (TODO)
 
+* Separação de responsabilidade entre definição de rotas e chamadas do controller (criação de Routers)
+* Serialização direta de retornos da controller (Sem precisar criar ProbeRequest e ProbeResponse)
 * Validações de payloads enviados no POST e PUT
 * Pesquisa de Sondas pelo nome usando QueryString em /probe
 * Persistencia in-memory e não no código
