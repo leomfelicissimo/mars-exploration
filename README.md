@@ -146,10 +146,6 @@ O response será a nova coordenada da sonda, apontando para 5, 1, leste.
 * [Akka Http](https://github.com/akka/akka-http) - Biblioteca criada a partir do Akka para implementação de aplicações que se comunicam via Http seguindo o modelo de Atores.
 * [SBT](https://www.scala-sbt.org/download.html): Ferramenta de build para compilar e executar o código Scala.
 
-## Contributing
-
-Please read [CONTRIBUTING.md](https://gist.github.com/PurpleBooth/b24679402957c63ec426) for details on our code of conduct, and the process for submitting pull requests to us.
-
 ## Authors
 
 * **Leonardo Felicissimo** - *Criador* - [Github](https://github.com/leomfelicissimo), [LinkedIn](https://www.linkedin.com/in/leomfelicissimo/)
